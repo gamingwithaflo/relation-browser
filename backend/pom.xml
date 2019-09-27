@@ -12,7 +12,6 @@
   <artifactId>relation-browser-backend</artifactId>
   <version>1.0-SNAPSHOT</version>
   <properties>
-    <version.quarkus>0.21.2</version.quarkus>
     <version.kubernetes-client>4.4.2</version.kubernetes-client>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
