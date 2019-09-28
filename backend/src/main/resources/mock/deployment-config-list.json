@@ -1,0 +1,859 @@
+[
+  {
+    "additionalProperties": {},
+    "apiVersion": "apps.openshift.io/v1",
+    "kind": "DeploymentConfig",
+    "metadata": {
+      "additionalProperties": {},
+      "annotations": {
+        "template.alpha.openshift.io/wait-for-ready": "true"
+      },
+      "creationTimestamp": "2019-09-28T18:01:01Z",
+      "finalizers": [],
+      "generation": 2,
+      "labels": {
+        "app.kubernetes.io/part-of": "front-end",
+        "template": "mongodb-ephemeral-template",
+        "template.openshift.io/template-instance-owner": "ee283042-e219-11e9-b5b8-0a580a8000cd"
+      },
+      "name": "mongodb",
+      "namespace": "example",
+      "ownerReferences": [],
+      "resourceVersion": "266561",
+      "selfLink": "/apis/apps.openshift.io/v1/namespaces/example/deploymentconfigs/mongodb",
+      "uid": "ee37ae71-e219-11e9-b5b8-0a580a8000cd"
+    },
+    "spec": {
+      "additionalProperties": {},
+      "replicas": 1,
+      "revisionHistoryLimit": 10,
+      "selector": {
+        "name": "mongodb"
+      },
+      "strategy": {
+        "activeDeadlineSeconds": 21600,
+        "additionalProperties": {},
+        "recreateParams": {
+          "additionalProperties": {},
+          "timeoutSeconds": 600
+        },
+        "resources": {
+          "additionalProperties": {}
+        },
+        "type": "Recreate"
+      },
+      "template": {
+        "additionalProperties": {},
+        "metadata": {
+          "additionalProperties": {},
+          "finalizers": [],
+          "labels": {
+            "name": "mongodb"
+          },
+          "ownerReferences": []
+        },
+        "spec": {
+          "additionalProperties": {},
+          "containers": [
+            {
+              "additionalProperties": {},
+              "args": [],
+              "command": [],
+              "env": [
+                {
+                  "additionalProperties": {},
+                  "name": "MONGODB_USER",
+                  "valueFrom": {
+                    "additionalProperties": {},
+                    "secretKeyRef": {
+                      "additionalProperties": {},
+                      "key": "database-user",
+                      "name": "mongodb"
+                    }
+                  }
+                },
+                {
+                  "additionalProperties": {},
+                  "name": "MONGODB_PASSWORD",
+                  "valueFrom": {
+                    "additionalProperties": {},
+                    "secretKeyRef": {
+                      "additionalProperties": {},
+                      "key": "database-password",
+                      "name": "mongodb"
+                    }
+                  }
+                },
+                {
+                  "additionalProperties": {},
+                  "name": "MONGODB_ADMIN_PASSWORD",
+                  "valueFrom": {
+                    "additionalProperties": {},
+                    "secretKeyRef": {
+                      "additionalProperties": {},
+                      "key": "database-admin-password",
+                      "name": "mongodb"
+                    }
+                  }
+                },
+                {
+                  "additionalProperties": {},
+                  "name": "MONGODB_DATABASE",
+                  "valueFrom": {
+                    "additionalProperties": {},
+                    "secretKeyRef": {
+                      "additionalProperties": {},
+                      "key": "database-name",
+                      "name": "mongodb"
+                    }
+                  }
+                }
+              ],
+              "envFrom": [],
+              "image": "image-registry.openshift-image-registry.svc:5000/openshift/mongodb@sha256:f18f8f7c957dd786af1c7d37b40765454a5858f43745c63db3415193c5af9ee5",
+              "imagePullPolicy": "IfNotPresent",
+              "livenessProbe": {
+                "additionalProperties": {},
+                "failureThreshold": 3,
+                "initialDelaySeconds": 30,
+                "periodSeconds": 10,
+                "successThreshold": 1,
+                "tcpSocket": {
+                  "additionalProperties": {},
+                  "port": {
+                    "additionalProperties": {},
+                    "intVal": 27017,
+                    "kind": 0
+                  }
+                },
+                "timeoutSeconds": 1
+              },
+              "name": "mongodb",
+              "ports": [
+                {
+                  "additionalProperties": {},
+                  "containerPort": 27017,
+                  "protocol": "TCP"
+                }
+              ],
+              "readinessProbe": {
+                "additionalProperties": {},
+                "exec": {
+                  "additionalProperties": {},
+                  "command": [
+                    "/bin/sh",
+                    "-i",
+                    "-c",
+                    "mongo 127.0.0.1:27017/$MONGODB_DATABASE -u $MONGODB_USER -p $MONGODB_PASSWORD --eval=\"quit()\""
+                  ]
+                },
+                "failureThreshold": 3,
+                "initialDelaySeconds": 3,
+                "periodSeconds": 10,
+                "successThreshold": 1,
+                "timeoutSeconds": 1
+              },
+              "resources": {
+                "additionalProperties": {},
+                "limits": {
+                  "memory": {
+                    "additionalProperties": {},
+                    "amount": "512Mi"
+                  }
+                }
+              },
+              "securityContext": {
+                "additionalProperties": {},
+                "capabilities": {
+                  "add": [],
+                  "additionalProperties": {},
+                  "drop": []
+                },
+                "privileged": false
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeDevices": [],
+              "volumeMounts": [
+                {
+                  "additionalProperties": {},
+                  "mountPath": "/var/lib/mongodb/data",
+                  "name": "mongodb-data"
+                }
+              ]
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "hostAliases": [],
+          "imagePullSecrets": [],
+          "initContainers": [],
+          "readinessGates": [],
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {
+            "additionalProperties": {},
+            "supplementalGroups": [],
+            "sysctls": []
+          },
+          "terminationGracePeriodSeconds": 30,
+          "tolerations": [],
+          "volumes": [
+            {
+              "additionalProperties": {},
+              "emptyDir": {
+                "additionalProperties": {}
+              },
+              "name": "mongodb-data"
+            }
+          ]
+        }
+      },
+      "test": false,
+      "triggers": [
+        {
+          "additionalProperties": {},
+          "imageChangeParams": {
+            "additionalProperties": {},
+            "automatic": true,
+            "containerNames": [
+              "mongodb"
+            ],
+            "from": {
+              "additionalProperties": {},
+              "kind": "ImageStreamTag",
+              "name": "mongodb:3.6",
+              "namespace": "openshift"
+            },
+            "lastTriggeredImage": "image-registry.openshift-image-registry.svc:5000/openshift/mongodb@sha256:f18f8f7c957dd786af1c7d37b40765454a5858f43745c63db3415193c5af9ee5"
+          },
+          "type": "ImageChange"
+        },
+        {
+          "additionalProperties": {},
+          "type": "ConfigChange"
+        }
+      ]
+    },
+    "status": {
+      "additionalProperties": {},
+      "availableReplicas": 1,
+      "conditions": [
+        {
+          "additionalProperties": {},
+          "lastTransitionTime": "2019-09-28T18:02:24Z",
+          "lastUpdateTime": "2019-09-28T18:02:24Z",
+          "message": "Deployment config has minimum availability.",
+          "status": "True",
+          "type": "Available"
+        },
+        {
+          "additionalProperties": {},
+          "lastTransitionTime": "2019-09-28T18:02:24Z",
+          "lastUpdateTime": "2019-09-28T18:02:24Z",
+          "message": "replication controller \"mongodb-1\" successfully rolled out",
+          "reason": "NewReplicationControllerAvailable",
+          "status": "True",
+          "type": "Progressing"
+        }
+      ],
+      "details": {
+        "additionalProperties": {},
+        "causes": [
+          {
+            "additionalProperties": {},
+            "type": "ConfigChange"
+          }
+        ],
+        "message": "config change"
+      },
+      "latestVersion": 1,
+      "observedGeneration": 2,
+      "readyReplicas": 1,
+      "replicas": 1,
+      "unavailableReplicas": 0,
+      "updatedReplicas": 1
+    }
+  },
+  {
+    "additionalProperties": {},
+    "apiVersion": "apps.openshift.io/v1",
+    "kind": "DeploymentConfig",
+    "metadata": {
+      "additionalProperties": {},
+      "annotations": {
+        "description": "Defines how to deploy the application server",
+        "template.alpha.openshift.io/wait-for-ready": "true"
+      },
+      "creationTimestamp": "2019-09-28T18:02:09Z",
+      "finalizers": [],
+      "generation": 2,
+      "labels": {
+        "app": "nodejs-mongodb-example",
+        "template": "nodejs-mongodb-example",
+        "template.openshift.io/template-instance-owner": "16d72e8c-e21a-11e9-b5b8-0a580a8000cd"
+      },
+      "name": "nodejs-mongodb-example",
+      "namespace": "example",
+      "ownerReferences": [],
+      "resourceVersion": "264911",
+      "selfLink": "/apis/apps.openshift.io/v1/namespaces/example/deploymentconfigs/nodejs-mongodb-example",
+      "uid": "16f7f896-e21a-11e9-b5b8-0a580a8000cd"
+    },
+    "spec": {
+      "additionalProperties": {},
+      "replicas": 1,
+      "revisionHistoryLimit": 10,
+      "selector": {
+        "name": "nodejs-mongodb-example"
+      },
+      "strategy": {
+        "activeDeadlineSeconds": 21600,
+        "additionalProperties": {},
+        "recreateParams": {
+          "additionalProperties": {},
+          "timeoutSeconds": 600
+        },
+        "resources": {
+          "additionalProperties": {}
+        },
+        "type": "Recreate"
+      },
+      "template": {
+        "additionalProperties": {},
+        "metadata": {
+          "additionalProperties": {},
+          "finalizers": [],
+          "labels": {
+            "name": "nodejs-mongodb-example"
+          },
+          "name": "nodejs-mongodb-example",
+          "ownerReferences": []
+        },
+        "spec": {
+          "additionalProperties": {},
+          "containers": [
+            {
+              "additionalProperties": {},
+              "args": [],
+              "command": [],
+              "env": [
+                {
+                  "additionalProperties": {},
+                  "name": "DATABASE_SERVICE_NAME",
+                  "value": "mongodb"
+                },
+                {
+                  "additionalProperties": {},
+                  "name": "MONGODB_USER",
+                  "valueFrom": {
+                    "additionalProperties": {},
+                    "secretKeyRef": {
+                      "additionalProperties": {},
+                      "key": "database-user",
+                      "name": "nodejs-mongodb-example"
+                    }
+                  }
+                },
+                {
+                  "additionalProperties": {},
+                  "name": "MONGODB_PASSWORD",
+                  "valueFrom": {
+                    "additionalProperties": {},
+                    "secretKeyRef": {
+                      "additionalProperties": {},
+                      "key": "database-password",
+                      "name": "nodejs-mongodb-example"
+                    }
+                  }
+                },
+                {
+                  "additionalProperties": {},
+                  "name": "MONGODB_DATABASE",
+                  "value": "sampledb"
+                },
+                {
+                  "additionalProperties": {},
+                  "name": "MONGODB_ADMIN_PASSWORD",
+                  "valueFrom": {
+                    "additionalProperties": {},
+                    "secretKeyRef": {
+                      "additionalProperties": {},
+                      "key": "database-admin-password",
+                      "name": "nodejs-mongodb-example"
+                    }
+                  }
+                }
+              ],
+              "envFrom": [],
+              "image": "image-registry.openshift-image-registry.svc:5000/example/nodejs-mongodb-example@sha256:88a9bde00a92d4fe4989d06dfb7087f429cc9f772b6e012fe9893f7b07ff0def",
+              "imagePullPolicy": "IfNotPresent",
+              "livenessProbe": {
+                "additionalProperties": {},
+                "failureThreshold": 3,
+                "httpGet": {
+                  "additionalProperties": {},
+                  "httpHeaders": [],
+                  "path": "/",
+                  "port": {
+                    "additionalProperties": {},
+                    "intVal": 8080,
+                    "kind": 0
+                  },
+                  "scheme": "HTTP"
+                },
+                "initialDelaySeconds": 30,
+                "periodSeconds": 10,
+                "successThreshold": 1,
+                "timeoutSeconds": 3
+              },
+              "name": "nodejs-mongodb-example",
+              "ports": [
+                {
+                  "additionalProperties": {},
+                  "containerPort": 8080,
+                  "protocol": "TCP"
+                }
+              ],
+              "readinessProbe": {
+                "additionalProperties": {},
+                "failureThreshold": 3,
+                "httpGet": {
+                  "additionalProperties": {},
+                  "httpHeaders": [],
+                  "path": "/",
+                  "port": {
+                    "additionalProperties": {},
+                    "intVal": 8080,
+                    "kind": 0
+                  },
+                  "scheme": "HTTP"
+                },
+                "initialDelaySeconds": 3,
+                "periodSeconds": 10,
+                "successThreshold": 1,
+                "timeoutSeconds": 3
+              },
+              "resources": {
+                "additionalProperties": {},
+                "limits": {
+                  "memory": {
+                    "additionalProperties": {},
+                    "amount": "512Mi"
+                  }
+                }
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeDevices": [],
+              "volumeMounts": []
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "hostAliases": [],
+          "imagePullSecrets": [],
+          "initContainers": [],
+          "readinessGates": [],
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {
+            "additionalProperties": {},
+            "supplementalGroups": [],
+            "sysctls": []
+          },
+          "terminationGracePeriodSeconds": 30,
+          "tolerations": [],
+          "volumes": []
+        }
+      },
+      "test": false,
+      "triggers": [
+        {
+          "additionalProperties": {},
+          "imageChangeParams": {
+            "additionalProperties": {},
+            "automatic": true,
+            "containerNames": [
+              "nodejs-mongodb-example"
+            ],
+            "from": {
+              "additionalProperties": {},
+              "kind": "ImageStreamTag",
+              "name": "nodejs-mongodb-example:latest",
+              "namespace": "example"
+            },
+            "lastTriggeredImage": "image-registry.openshift-image-registry.svc:5000/example/nodejs-mongodb-example@sha256:88a9bde00a92d4fe4989d06dfb7087f429cc9f772b6e012fe9893f7b07ff0def"
+          },
+          "type": "ImageChange"
+        },
+        {
+          "additionalProperties": {},
+          "type": "ConfigChange"
+        }
+      ]
+    },
+    "status": {
+      "additionalProperties": {},
+      "availableReplicas": 1,
+      "conditions": [
+        {
+          "additionalProperties": {},
+          "lastTransitionTime": "2019-09-28T18:08:54Z",
+          "lastUpdateTime": "2019-09-28T18:08:54Z",
+          "message": "Deployment config has minimum availability.",
+          "status": "True",
+          "type": "Available"
+        },
+        {
+          "additionalProperties": {},
+          "lastTransitionTime": "2019-09-28T18:08:55Z",
+          "lastUpdateTime": "2019-09-28T18:08:55Z",
+          "message": "replication controller \"nodejs-mongodb-example-1\" successfully rolled out",
+          "reason": "NewReplicationControllerAvailable",
+          "status": "True",
+          "type": "Progressing"
+        }
+      ],
+      "details": {
+        "additionalProperties": {},
+        "causes": [
+          {
+            "additionalProperties": {},
+            "type": "ConfigChange"
+          }
+        ],
+        "message": "config change"
+      },
+      "latestVersion": 1,
+      "observedGeneration": 2,
+      "readyReplicas": 1,
+      "replicas": 1,
+      "unavailableReplicas": 0,
+      "updatedReplicas": 1
+    }
+  },
+  {
+    "additionalProperties": {},
+    "apiVersion": "apps.openshift.io/v1",
+    "kind": "DeploymentConfig",
+    "metadata": {
+      "additionalProperties": {},
+      "annotations": {
+        "app.openshift.io/connects-to": "nodejs-mongodb-example",
+        "app.openshift.io/vcs-ref": "master",
+        "app.openshift.io/vcs-uri": "https://github.com/redhat-developer/s2i-dotnetcore-ex.git"
+      },
+      "creationTimestamp": "2019-09-28T18:17:11Z",
+      "finalizers": [],
+      "generation": 1,
+      "labels": {
+        "app": "other-service",
+        "app.kubernetes.io/component": "other-service",
+        "app.kubernetes.io/instance": "other-service",
+        "app.kubernetes.io/name": "modern-webapp",
+        "app.openshift.io/runtime": "modern-webapp",
+        "app.openshift.io/runtime-version": "10.x"
+      },
+      "name": "other-service",
+      "namespace": "example",
+      "ownerReferences": [],
+      "resourceVersion": "266544",
+      "selfLink": "/apis/apps.openshift.io/v1/namespaces/example/deploymentconfigs/other-service",
+      "uid": "30745ade-e21c-11e9-b5b8-0a580a8000cd"
+    },
+    "spec": {
+      "additionalProperties": {},
+      "replicas": 1,
+      "revisionHistoryLimit": 10,
+      "selector": {
+        "app": "other-service",
+        "deploymentconfig": "other-service"
+      },
+      "strategy": {
+        "activeDeadlineSeconds": 21600,
+        "additionalProperties": {},
+        "resources": {
+          "additionalProperties": {}
+        },
+        "rollingParams": {
+          "additionalProperties": {},
+          "intervalSeconds": 1,
+          "maxSurge": {
+            "additionalProperties": {},
+            "kind": 1,
+            "strVal": "25%"
+          },
+          "maxUnavailable": {
+            "additionalProperties": {},
+            "kind": 1,
+            "strVal": "25%"
+          },
+          "timeoutSeconds": 600,
+          "updatePeriodSeconds": 1
+        },
+        "type": "Rolling"
+      },
+      "template": {
+        "additionalProperties": {},
+        "metadata": {
+          "additionalProperties": {},
+          "finalizers": [],
+          "labels": {
+            "app": "other-service",
+            "deploymentconfig": "other-service"
+          },
+          "ownerReferences": []
+        },
+        "spec": {
+          "additionalProperties": {},
+          "containers": [
+            {
+              "additionalProperties": {},
+              "args": [],
+              "command": [],
+              "env": [],
+              "envFrom": [],
+              "image": "other-service:latest",
+              "imagePullPolicy": "Always",
+              "name": "other-service",
+              "ports": [
+                {
+                  "additionalProperties": {},
+                  "containerPort": 8080,
+                  "protocol": "TCP"
+                }
+              ],
+              "resources": {
+                "additionalProperties": {}
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeDevices": [],
+              "volumeMounts": []
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "hostAliases": [],
+          "imagePullSecrets": [],
+          "initContainers": [],
+          "readinessGates": [],
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {
+            "additionalProperties": {},
+            "supplementalGroups": [],
+            "sysctls": []
+          },
+          "terminationGracePeriodSeconds": 30,
+          "tolerations": [],
+          "volumes": []
+        }
+      },
+      "test": false,
+      "triggers": [
+        {
+          "additionalProperties": {},
+          "imageChangeParams": {
+            "additionalProperties": {},
+            "automatic": true,
+            "containerNames": [
+              "other-service"
+            ],
+            "from": {
+              "additionalProperties": {},
+              "kind": "ImageStreamTag",
+              "name": "other-service:latest",
+              "namespace": "example"
+            }
+          },
+          "type": "ImageChange"
+        },
+        {
+          "additionalProperties": {},
+          "type": "ConfigChange"
+        }
+      ]
+    },
+    "status": {
+      "additionalProperties": {},
+      "availableReplicas": 0,
+      "conditions": [
+        {
+          "additionalProperties": {},
+          "lastTransitionTime": "2019-09-28T18:17:11Z",
+          "lastUpdateTime": "2019-09-28T18:17:11Z",
+          "message": "Deployment config does not have minimum availability.",
+          "status": "False",
+          "type": "Available"
+        }
+      ],
+      "latestVersion": 0,
+      "observedGeneration": 1,
+      "replicas": 0,
+      "unavailableReplicas": 0,
+      "updatedReplicas": 0
+    }
+  },
+  {
+    "additionalProperties": {},
+    "apiVersion": "apps.openshift.io/v1",
+    "kind": "DeploymentConfig",
+    "metadata": {
+      "additionalProperties": {},
+      "annotations": {
+        "app.openshift.io/connects-to": "mongodb",
+        "app.openshift.io/vcs-ref": "master",
+        "app.openshift.io/vcs-uri": "https://github.com/redhat-developer/s2i-dotnetcore-ex.git"
+      },
+      "creationTimestamp": "2019-09-28T18:10:20Z",
+      "finalizers": [],
+      "generation": 1,
+      "labels": {
+        "app": "userservice",
+        "app.kubernetes.io/component": "userservice",
+        "app.kubernetes.io/instance": "userservice",
+        "app.kubernetes.io/name": "dotnet",
+        "app.kubernetes.io/part-of": "front-end",
+        "app.openshift.io/runtime": "dotnet",
+        "app.openshift.io/runtime-version": "2.2"
+      },
+      "name": "userservice",
+      "namespace": "example",
+      "ownerReferences": [],
+      "resourceVersion": "265222",
+      "selfLink": "/apis/apps.openshift.io/v1/namespaces/example/deploymentconfigs/userservice",
+      "uid": "3bee65b4-e21b-11e9-b5b8-0a580a8000cd"
+    },
+    "spec": {
+      "additionalProperties": {},
+      "replicas": 1,
+      "revisionHistoryLimit": 10,
+      "selector": {
+        "app": "userservice",
+        "deploymentconfig": "userservice"
+      },
+      "strategy": {
+        "activeDeadlineSeconds": 21600,
+        "additionalProperties": {},
+        "resources": {
+          "additionalProperties": {}
+        },
+        "rollingParams": {
+          "additionalProperties": {},
+          "intervalSeconds": 1,
+          "maxSurge": {
+            "additionalProperties": {},
+            "kind": 1,
+            "strVal": "25%"
+          },
+          "maxUnavailable": {
+            "additionalProperties": {},
+            "kind": 1,
+            "strVal": "25%"
+          },
+          "timeoutSeconds": 600,
+          "updatePeriodSeconds": 1
+        },
+        "type": "Rolling"
+      },
+      "template": {
+        "additionalProperties": {},
+        "metadata": {
+          "additionalProperties": {},
+          "finalizers": [],
+          "labels": {
+            "app": "userservice",
+            "deploymentconfig": "userservice"
+          },
+          "ownerReferences": []
+        },
+        "spec": {
+          "additionalProperties": {},
+          "containers": [
+            {
+              "additionalProperties": {},
+              "args": [],
+              "command": [],
+              "env": [],
+              "envFrom": [],
+              "image": "userservice:latest",
+              "imagePullPolicy": "Always",
+              "name": "userservice",
+              "ports": [
+                {
+                  "additionalProperties": {},
+                  "containerPort": 8080,
+                  "protocol": "TCP"
+                }
+              ],
+              "resources": {
+                "additionalProperties": {}
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeDevices": [],
+              "volumeMounts": []
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "hostAliases": [],
+          "imagePullSecrets": [],
+          "initContainers": [],
+          "readinessGates": [],
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {
+            "additionalProperties": {},
+            "supplementalGroups": [],
+            "sysctls": []
+          },
+          "terminationGracePeriodSeconds": 30,
+          "tolerations": [],
+          "volumes": []
+        }
+      },
+      "test": false,
+      "triggers": [
+        {
+          "additionalProperties": {},
+          "imageChangeParams": {
+            "additionalProperties": {},
+            "automatic": true,
+            "containerNames": [
+              "userservice"
+            ],
+            "from": {
+              "additionalProperties": {},
+              "kind": "ImageStreamTag",
+              "name": "userservice:latest",
+              "namespace": "example"
+            }
+          },
+          "type": "ImageChange"
+        },
+        {
+          "additionalProperties": {},
+          "type": "ConfigChange"
+        }
+      ]
+    },
+    "status": {
+      "additionalProperties": {},
+      "availableReplicas": 0,
+      "conditions": [
+        {
+          "additionalProperties": {},
+          "lastTransitionTime": "2019-09-28T18:10:21Z",
+          "lastUpdateTime": "2019-09-28T18:10:21Z",
+          "message": "Deployment config does not have minimum availability.",
+          "status": "False",
+          "type": "Available"
+        }
+      ],
+      "latestVersion": 0,
+      "observedGeneration": 1,
+      "replicas": 0,
+      "unavailableReplicas": 0,
+      "updatedReplicas": 0
+    }
+  }
+]

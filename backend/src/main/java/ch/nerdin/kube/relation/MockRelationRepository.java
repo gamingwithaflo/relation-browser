@@ -9,7 +9,7 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.fabric8.kubernetes.api.model.Pod;
+import io.fabric8.openshift.api.model.DeploymentConfig;
 
 @ApplicationScoped
 public class MockRelationRepository extends RelationRepository {
@@ -20,10 +20,10 @@ public class MockRelationRepository extends RelationRepository {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Pod> getNodes() {
+    public List<DeploymentConfig> getNodes(String namespace) {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            File resource = new File(getClass().getResource("/mock/pod-list.json").toURI());
+            File resource = new File(getClass().getResource("/mock/deployment-config-list.json").toURI());
             return mapper.readValue(new String(Files.readAllBytes(resource.toPath())), List.class);
         } catch (IOException | URISyntaxException e) {
             throw new RuntimeException("could not parse json", e);
