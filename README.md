@@ -23,8 +23,8 @@ $> ../mvnw compile quarkus:dev
 
 Backend is returning mocked data and atm has one endpoint:
 ```
-   /api/relation
-      Returns a list of Nodes (Pods)
+   /api/relation/<namespace>
+      Returns a list of Nodes (Deployment Config)
       Label contains the relational data
 ```
 
