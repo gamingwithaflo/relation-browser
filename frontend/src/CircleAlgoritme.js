@@ -472,7 +472,7 @@ class CircleAlgoritme extends React.Component {
                     />
                     ;
                     <Lines
-                      x1={27.5}
+                      x1={26.6}
                       y1={12 + index * 24}
                       x2={22}
                       y2={12 + index * 24}
