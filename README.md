@@ -21,7 +21,9 @@ $> cd backend
 $> ../mvnw compile quarkus:dev
 ```
 
+c
 Backend is returning mocked data and atm has one endpoint:
+
 ```
    /api/relation/<namespace>
       Returns a list of Nodes (Deployment Config)
@@ -29,6 +31,7 @@ Backend is returning mocked data and atm has one endpoint:
 ```
 
 Example labels:
+
 ```
 app.kubernetes.io/part-of: cool-service
 app.kubernetes.io/name: nodejs
@@ -37,6 +40,6 @@ app.openshift.io/runtime: nodejs
 app.openshift.io/connects-to: mongodb
 ```
 
-More [information about labels](https://github.com/gorkem/app-labels/blob/master/labels-annotation-for-openshift.adoc)
+More [information about labels]()
 For us the most important are listed above part-of will give us a grouping of nodes that belong together.
 With runtime we can show a logo for the specific runtime and connects-to gives us the info for connecting the nodes.
