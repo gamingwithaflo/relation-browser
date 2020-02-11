@@ -23,7 +23,7 @@ class TextBox extends React.Component {
           stroke="black"
           strokeWidth="0.1"
         ></rect>
-        <text x={x1} y={y1} fontFamily="Verdana" fontSize="1" fill="black">
+        <text x={x1} y={y1} fontFamily="Open Sans" fontSize="1" fill="black">
           {name}
         </text>
       </React.Fragment>
